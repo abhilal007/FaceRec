@@ -15,6 +15,9 @@ def index():
     response.flash = T("Hello World")
     return dict(message=T('Welcome to web2py!'))
 
+def camera():
+    return dict(message=T('HELLO'))
+
 def course_old():
     return dict(message=T('aaaa'))
 
