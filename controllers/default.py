@@ -18,16 +18,62 @@ def index():
 def course_old():
     return dict(message=T('aaaa'))
 
-# def course():
-#    form = SQLFORM(db.Course)
-#    if form.process().accepted:
-#        response.flash = 'form accepted'
-#    elif form.errors:
-#        response.flash = 'form has errors'
-#    else:
-#        response.flash = 'please fill out the form'
-#    form.add_button('update form', URL('course'))
-#    return dict(message=form)
+def faculty_home():
+    form = SQLFORM(db.Attendance)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+    form.add_button('update form', URL('faculty_home'))
+    return dict(message=form)
+
+def add_std():
+    form = SQLFORM(db.Student)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+    form.add_button('update form', URL('faculty_home'))
+    return dict(message=form)
+
+def add_batches():
+    form = SQLFORM(db.Batches)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+    form.add_button('update form', URL('faculty_home'))
+    return dict(message=form)
+
+
+def upload_std():
+    form = SQLFORM(db.image)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+    form.add_button('update form', URL('upload_std'))
+    return dict(message=form)
+
+
+def course():
+    form = SQLFORM(db.Course)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+    form.add_button('update form', URL('course'))
+    return dict(message=form)
 
 # ---- API (example) -----
 @auth.requires_login()

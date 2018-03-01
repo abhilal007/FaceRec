@@ -135,8 +135,26 @@ if configuration.get('scheduler.enabled'):
 # Define your tables below (or better in another model file) for example
 #
 # >>> 
-db.define_table('mytable', Field('myfield', 'string'))
-db.define_table('Course', Field('course_name', 'string'), Field('code_code', 'string'))
+db.define_table('Faculty',Field('faculty_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('faculty_name', 'string'))
+db.Faculty.faculty_id.requires=IS_NOT_IN_DB(db,'Faculty.faculty_id')
+
+
+db.define_table('Course',Field('course_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('course_name','string'),Field('faculty_id',db.Faculty))
+db.Course.course_id.requires=IS_NOT_IN_DB(db,'Course.course_id')
+
+
+db.define_table('Batches',Field('batch_id','string'),Field('course_id',db.Course))
+
+
+db.define_table('Student',Field('student_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('student_name', 'string'),Field('batch_id',db.Batches))
+db.Student.student_id.requires=IS_NOT_IN_DB(db,'Student.student_id')
+
+db.define_table('image',Field('student_id', db.Student),Field('image_file', 'upload'))
+
+db.define_table('Registered',Field('course_id',db.Course),Field('student_id',db.Student))
+
+db.define_table('Attendance',Field('session_id'),Field('course_id',db.Course),Field('student_id',db.Student),Field('batch_id',db.Batches),Field('present','boolean'))
+
 #
 # Fields can be 'string','text','password','integer','double','boolean'
 #       'date','time','datetime','blob','upload', 'reference TABLENAME'

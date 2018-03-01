@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+
+{{block header}}
+<center style="background-color: #333; color:white; padding:30px">
+  <h1>/{{=request.application}}/{{=request.controller}}/{{=request.function}}
+</center>
+{{end}}
+
+{{if 'message' in globals():}}
+<h2>{{=message}}</h2>
+
+
+
+</center>
+{{elif 'content' in globals():}}
+{{=content}}
+{{else:}}
+{{=BEAUTIFY(response._vars)}}
+{{pass}}
+

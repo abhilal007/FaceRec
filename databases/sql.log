@@ -66,3 +66,96 @@ CREATE TABLE "Course"(
     "code_code" CHAR(512)
 );
 success!
+timestamp: 2018-03-01T17:56:49.932918
+CREATE TABLE "Faculty"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "faculty_id" CHAR(512),
+    "faculty_name" CHAR(512)
+);
+success!
+timestamp: 2018-03-01T17:56:50.108936
+ALTER TABLE "Course" ADD "course_id" CHAR(512);
+timestamp: 2018-03-01T17:56:50.156751
+ALTER TABLE "Course" ADD "faculty_id" INTEGER REFERENCES "Faculty" ("id") ON DELETE CASCADE  ;
+success!
+timestamp: 2018-03-01T17:56:50.227436
+CREATE TABLE "Batches"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "batch_id" CHAR(512),
+    "course_id" INTEGER REFERENCES "Course" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2018-03-01T17:56:50.300223
+CREATE TABLE "Student"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "student_id" CHAR(512),
+    "student_name" CHAR(512),
+    "batch_id" INTEGER REFERENCES "Batches" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2018-03-01T17:56:50.390285
+CREATE TABLE "image"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "student_id" INTEGER REFERENCES "Student" ("id") ON DELETE CASCADE  ,
+    "image_file" CHAR(512)
+);
+success!
+timestamp: 2018-03-01T17:56:50.469007
+CREATE TABLE "Registered"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "course_id" INTEGER REFERENCES "Course" ("id") ON DELETE CASCADE  ,
+    "student_id" INTEGER REFERENCES "Student" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2018-03-01T17:56:50.547735
+CREATE TABLE "Attendance"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "session_id" CHAR(512),
+    "course_id" INTEGER REFERENCES "Course" ("id") ON DELETE CASCADE  ,
+    "student_id" INTEGER REFERENCES "Student" ("id") ON DELETE CASCADE  ,
+    "batch_id" INTEGER REFERENCES "Batches" ("id") ON DELETE CASCADE  ,
+    "present" CHAR(1)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
