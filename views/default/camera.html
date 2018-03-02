@@ -59,6 +59,20 @@
                     var data = canvas.toDataURL('image/webp');
                     document.getElementById('photo').setAttribute('src', data);
                     alert(data);
+                    data=data.split(',')[1];
+                    $.ajax({
+                        url: "https://127.0.0.1:8000/FaceRec/default/capture",
+                        dataType: 'text',
+                        type: 'post',
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: {"value":data},
+                        success: function( data, textStatus, jQxhr ){
+                           alert(data);
+                        },
+                        error: function( jqXhr, textStatus, errorThrown ){
+                            console.log( errorThrown );
+                        }
+                    });
                     document.getElementById('Upload').style.display="block";
                 }
             }, false);

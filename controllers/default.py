@@ -9,6 +9,7 @@ import os
 from gluon import current
 from gluon.serializers import json
 import numpy
+from binascii import a2b_base64
 
 # ---- example index page ----
 def index():
@@ -98,18 +99,43 @@ def wiki():
     auth.wikimenu() # add the wiki to the menu
     return auth.wiki()
 
-#Image processing
-def capture():
+def test():
 
-    #image = request.post_vars('value')
     image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
+
     image_read = image.read()
+
     image_64_encode = base64.encodestring(image_read)
+
     image_64_decode = base64.decodestring(image_64_encode)
+    """
     image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
     image_result.write(image_64_decode)
     reco = face_recognition.load_image_file(os.path.join(current.request.folder, 'images', 'image.jpeg'))
     reco_encoding = face_recognition.face_encodings(reco)[0]
+
+    return json(",".join(map(str,reco_encoding)))
+    """
+    return "hi"
+#Image processing
+def capture():
+
+    image = request.post_vars.value
+    print(image);
+    # image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
+    # image_read = image.read()
+    # image_64_encode = base64.encodestring(image_read)
+
+    #image_64_decode = base64.b64decode(image)
+
+    binary_data = a2b_base64(image)
+    filepath = os.path.join(current.request.folder, 'images', 'image.jpeg')
+    fd = open(filepath, 'wb')
+    fd.write(binary_data)
+    #image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
+    #image_result.write(image_64_decode)
+    reco = face_recognition.load_image_file(filepath)
+    reco_encoding = face_recognition.face_encodings(reco)
 
     return json(",".join(map(str,reco_encoding)))
     #return json("[{id:1,name:abcd},{id:1,name:abcd}]")
