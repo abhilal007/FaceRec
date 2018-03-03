@@ -121,8 +121,10 @@ def test():
 #Image processing
 def capture():
 
+    reco_encodings = []
     image = request.post_vars.value
     print(image);
+    db.image.select()
     # image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
     # image_read = image.read()
     # image_64_encode = base64.encodestring(image_read)
@@ -133,12 +135,21 @@ def capture():
     filepath = os.path.join(current.request.folder, 'images', 'image.jpeg')
     fd = open(filepath, 'wb')
     fd.write(binary_data)
+    rows = db().select(db.image_encod.ALL)
     #image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
     #image_result.write(image_64_decode)
     reco = face_recognition.load_image_file(filepath)
-    reco_encoding = face_recognition.face_encodings(reco)
+    locations = face_recognition.face_locations(reco)
+    for face_location in locations:
+        reco_encoding = face_recognition.face_encodings(reco, face_location)
+        for row in rows:
+          results = face_recognition.compare_faces(row.encod, reco_encoding)
+          if results[0] == True:
+            return row.id
 
-    return json(",".join(map(str,reco_encoding)))
+    #reco_encoding = face_recognition.face_encodings(reco)
+
+    #return json(",".join(map(str,reco_encoding)))
     #return json("[{id:1,name:abcd},{id:1,name:abcd}]")
 
 
