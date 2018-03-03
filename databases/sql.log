@@ -210,3 +210,95 @@ success!
 success!
 success!
 >>>>>>> master
+success!
+success!
+success!
+timestamp: 2018-03-03T14:58:57.766015
+CREATE TABLE "Image_encod"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "encod" CHAR(512),
+    "student_id" INTEGER REFERENCES "Student" ("id") ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2018-03-03T16:50:12.306893
+ALTER TABLE "image" ADD "image_encod" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

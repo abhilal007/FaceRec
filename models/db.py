@@ -149,10 +149,7 @@ db.define_table('Batches',Field('batch_id','string'),Field('course_id',db.Course
 db.define_table('Student',Field('student_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('student_name', 'string'),Field('batch_id',db.Batches))
 db.Student.student_id.requires=IS_NOT_IN_DB(db,'Student.student_id')
 
-db.define_table('image',Field('student_id', db.Student),Field('image_file', 'upload'))
-
-db.define_table('Registered',Field('course_id',db.Course),Field('student_id',db.Student))
-
+db.define_table('image',Field('student_id', db.Student),Field('image_file', 'upload'),Field('image_encod','text'))
 db.define_table('Attendance',Field('session_id'),Field('course_id',db.Course),Field('student_id',db.Student),Field('batch_id',db.Batches),Field('present','boolean'))
 
 #

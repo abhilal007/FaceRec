@@ -79,6 +79,7 @@ def course():
     form.add_button('update form', URL('course'))
     return dict(message=form)
 
+
 # ---- API (example) -----
 @auth.requires_login()
 def api_get_user_email():
