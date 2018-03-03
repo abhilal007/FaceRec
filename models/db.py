@@ -54,7 +54,7 @@ else:
 # by default give a view/generic.extension to all actions from localhost
 # none otherwise. a pattern can be 'controller/function.extension'
 # -------------------------------------------------------------------------
-response.generic_patterns = [] 
+response.generic_patterns = []
 if request.is_local and not configuration.get('app.production'):
     response.generic_patterns.append('*')
 
@@ -111,8 +111,8 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
-# -------------------------------------------------------------------------  
-# read more at http://dev.w3.org/html5/markup/meta.name.html               
+# -------------------------------------------------------------------------
+# read more at http://dev.w3.org/html5/markup/meta.name.html
 # -------------------------------------------------------------------------
 response.meta.author = configuration.get('app.author')
 response.meta.description = configuration.get('app.description')
@@ -120,7 +120,7 @@ response.meta.keywords = configuration.get('app.keywords')
 response.meta.generator = configuration.get('app.generator')
 
 # -------------------------------------------------------------------------
-# your http://google.com/analytics id                                      
+# your http://google.com/analytics id
 # -------------------------------------------------------------------------
 response.google_analytics_id = configuration.get('google.analytics_id')
 
@@ -134,7 +134,7 @@ if configuration.get('scheduler.enabled'):
 # -------------------------------------------------------------------------
 # Define your tables below (or better in another model file) for example
 #
-# >>> 
+# >>>
 db.define_table('Faculty',Field('faculty_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('faculty_name', 'string'))
 db.Faculty.faculty_id.requires=IS_NOT_IN_DB(db,'Faculty.faculty_id')
 
@@ -149,7 +149,7 @@ db.define_table('Batches',Field('batch_id','string'),Field('course_id',db.Course
 db.define_table('Student',Field('student_id', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),Field('student_name', 'string'),Field('batch_id',db.Batches))
 db.Student.student_id.requires=IS_NOT_IN_DB(db,'Student.student_id')
 
-db.define_table('image',Field('student_id', db.Student),Field('image_file', 'upload'))
+db.define_table('image',Field('student_id', db.Student),Field('student_name', db.Student),Field('image_file', 'upload'))
 
 db.define_table('Registered',Field('course_id',db.Course),Field('student_id',db.Student))
 
