@@ -135,7 +135,7 @@ def capture():
     filepath = os.path.join(current.request.folder, 'images', 'image.jpeg')
     fd = open(filepath, 'wb')
     fd.write(binary_data)
-    rows = db().select(db.image_encod.ALL)
+    rows = db().select(db.image.image_encod, db.image.student_id)
     #image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
     #image_result.write(image_64_decode)
     reco = face_recognition.load_image_file(filepath)
