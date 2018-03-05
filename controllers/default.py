@@ -120,11 +120,18 @@ def test():
     return "hi"
 #Image processing
 def capture():
-
+    image = request.post_vars.value
+    binary_data = a2b_base64(image)
+    filepath = os.path.join(current.request.folder, 'images', 'image.JPG')
+    fd = open(filepath, 'wb')
+    fd.write(binary_data)
+    fd.close()
+    """
     reco_encodings = []
     image = request.post_vars.value
-    print(image);
-    db.image.select()
+    #print(image)
+    #print(image);
+    #db.image.select()
     # image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
     # image_read = image.read()
     # image_64_encode = base64.encodestring(image_read)
@@ -132,20 +139,41 @@ def capture():
     #image_64_decode = base64.b64decode(image)
 
     binary_data = a2b_base64(image)
-    filepath = os.path.join(current.request.folder, 'images', 'image.jpeg')
+
+    print(binary_data)
+    filepath = os.path.join(current.request.folder, 'images', 'image.JPG')
     fd = open(filepath, 'wb')
-    fd.write(binary_data)
+    fd.write(binar  y_data)
+    fd.close()
     rows = db().select(db.image.image_encod, db.image.student_id)
+    #print (rows)
+    known_encodings = []
+    for row in rows:
+        known_encodings.append(row.image_encod.split(" "))
     #image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
     #image_result.write(image_64_decode)
+    recognized_id = 0
+    #print(filepath)
     reco = face_recognition.load_image_file(filepath)
     locations = face_recognition.face_locations(reco)
+    reco_encodings = face_recognition.face_encodings(reco, locations)
+    #print(reco_encodings)
+    for enc in reco_encodings:
+      #print(enc)
+      face_distances = face_recognition.face_distance(known_encodings, enc)
+      #print (face_distances)
+    """
+    """
     for face_location in locations:
+        print(face_location)
         reco_encoding = face_recognition.face_encodings(reco, face_location)
         for row in rows:
           results = face_recognition.compare_faces(row.encod, reco_encoding)
+          print(results)
           if results[0] == True:
-            return row.id
+            recognized_id = row.id
+    """
+    return "hi"
 
     #reco_encoding = face_recognition.face_encodings(reco)
 
