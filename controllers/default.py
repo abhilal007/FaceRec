@@ -125,7 +125,13 @@ def test():
     return "hi"
 #Image processing
 def capture():
-
+    image = request.post_vars.value
+    binary_data = a2b_base64(image)
+    filepath = os.path.join(current.request.folder, 'images', 'image.JPG')
+    fd = open(filepath, 'wb')
+    fd.write(binary_data)
+    fd.close()
+    """
     reco_encodings = []
     #image = request.post_vars.value
     #print(image);
