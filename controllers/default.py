@@ -59,7 +59,12 @@ def add_batches():
 def upload_std():
     form = SQLFORM(db.image)
     if form.process().accepted:
-        response.flash = 'form accepted'
+        image_path = os.path.join(request.folder,'uploads',form.vars.image_file)
+        reco = face_recognition.load_image_file(image_path)
+        locations = face_recognition.face_locations(reco)
+        reco_encodings = face_recognition.face_encodings(reco, locations)[0]
+        db(db.image.id==form.vars.id).update(image_encod=",".join(map(str,reco_encodings)))
+        form.flash = 'form accepted'
     elif form.errors:
         response.flash = 'form has errors'
     else:
@@ -122,35 +127,67 @@ def test():
 def capture():
 
     reco_encodings = []
-    image = request.post_vars.value
-    print(image);
-    db.image.select()
+    #image = request.post_vars.value
+    #print(image);
+    
     # image = open(os.path.join(current.request.folder, 'images', 'image1.jpeg'), 'rb')
     # image_read = image.read()
     # image_64_encode = base64.encodestring(image_read)
 
     #image_64_decode = base64.b64decode(image)
 
-    binary_data = a2b_base64(image)
-    filepath = os.path.join(current.request.folder, 'images', 'image.jpeg')
-    fd = open(filepath, 'wb')
-    fd.write(binary_data)
-    rows = db().select(db.image.image_encod, db.image.student_id)
-    #image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
-    #image_result.write(image_64_decode)
+   
+    #imgData = base64.b64decode(image)
+
+    filepath = os.path.join(current.request.folder, 'images', 'image.png')
+    #fd = open(filepath, 'wb')
+    #fd.write(imgData)
+    #imgData = base64.b64decode(image)
     reco = face_recognition.load_image_file(filepath)
     locations = face_recognition.face_locations(reco)
-    for face_location in locations:
-        reco_encoding = face_recognition.face_encodings(reco, face_location)
-        for row in rows:
-          results = face_recognition.compare_faces(row.encod, reco_encoding)
-          if results[0] == True:
-            return row.id
+    reco_encodings = face_recognition.face_encodings(reco, locations)
 
-    #reco_encoding = face_recognition.face_encodings(reco)
+    rows = db().select(db.image.image_encod, db.image.student_id)
+    known_encodings = []
+    import numpy as np
+    distance = ["test"]
+    smallest = 10
+    i=0
+    for row in rows:
+        # encodingsss = row.image_encod.split(" ")
+        # print (encodingsss)
+        tmp = np.array(row.image_encod.split(","))
+        print (tmp)
+        known_encodings.append(tmp.astype(np.float))
 
-    #return json(",".join(map(str,reco_encoding)))
-    #return json("[{id:1,name:abcd},{id:1,name:abcd}]")
+    if(len(reco_encodings)>0):
+        for encoding in reco_encodings:
+            distance = face_recognition.face_distance(known_encodings,encoding)
+            
+        for dist in distance:
+            i=i+1
+            if dist < smallest:
+                smallest = dist
+                id = i
+    print(rows[id])            
+    return smallest
+    #return json(",".join(map(str,distance)))
+    # rows = db().select(db.image.image_encod, db.image.student_id)
+    # image_result = open(os.path.join(current.request.folder, 'images', 'image.jpeg'), 'wb') # create a writable image and write the decoding result
+    # image_result.write(image_64_decode)
+    # #
+    # 
+    # for face_location in locations:
+    #     
+    #     for row in rows:
+    #       results = face_recognition.compare_faces(row.encod, reco_encoding)
+    #       if results[0] == True:
+    #         return row.id
+
+    # reco_encoding = face_recognition.face_encodings(reco)
+
+    # return json(",".join(map(str,reco_encoding)))
+    # return json("[{id:1,name:abcd},{id:1,name:abcd}]")
 
 
 # ---- Action for login/register/etc (required for auth) -----
